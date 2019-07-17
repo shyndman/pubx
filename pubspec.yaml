@@ -1,12 +1,15 @@
 name: pubx
 description: The missing `pub` commands.
-version: 1.0.0
+version: 1.0.1
 author: Scott Hyndman <scotty.hyndman@gmail.com>
 homepage: https://github.com/shyndman/pubx
 repository: https://github.com/shyndman/pubx
 
 environment:
   sdk: '>=2.4.0 <3.0.0'
+
+executables:
+  pubx:
 
 dependencies:
   args: ^1.5.0
