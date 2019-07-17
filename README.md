@@ -2,6 +2,13 @@
 
 The missing `pub` commands.
 
+## Installation & Usage
+
+```sh
+pub global activate pubx
+pubx search json
+```
+
 ## Commands
 
 ### search
