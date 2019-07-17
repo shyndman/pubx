@@ -2,6 +2,7 @@ name: pubx
 description: The missing `pub` commands.
 version: 1.0.0
 author: Scott Hyndman <scotty.hyndman@gmail.com>
+homepage: https://github.com/shyndman/pubx
 repository: https://github.com/shyndman/pubx
 
 environment:
