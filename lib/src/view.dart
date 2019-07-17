@@ -5,6 +5,10 @@ import 'package:args/command_runner.dart';
 import 'api.dart';
 
 class ViewCommand extends Command {
+  ViewCommand() {
+    argParser.addFlag('versions', help: 'Display package versions');
+  }
+
   @override
   final String name = 'view';
 
@@ -18,17 +22,31 @@ class ViewCommand extends Command {
   final String invocation = 'pubx info {packageName}';
 
   Future<void> run() async {
+    final packageName = argResults.rest.join(' ');
+    bool printVersions = argResults['versions'];
+
     try {
-      PackageInfo package = await view(argResults.rest.join(' '));
-      _printPackage(package);
+      PackageInfo package = await view(packageName, fullParse: printVersions);
+      _printPackage(package, printVersions: printVersions);
     } on PackageNotFoundException catch (e) {
       stderr.writeln('${e.packageName} not found');
     }
   }
 
-  void _printPackage(PackageInfo package) {
+  void _printPackage(
+    PackageInfo package, {
+    bool printVersions,
+  }) {
     print('${package.name}: ${package.version}');
     print(package.description);
     print(package.url);
+    if (printVersions) {
+      print('\nAll versions:');
+      print(package.versionedPubspecs
+          .map((pubspec) => pubspec.version)
+          .toList()
+          .reversed
+          .join('\n'));
+    }
   }
 }

@@ -18,7 +18,10 @@ Future<SearchResult> search(String query) async {
   return SearchResult(packages: packageInfos);
 }
 
-Future<PackageInfo> view(String packageName) async {
+Future<PackageInfo> view(
+  String packageName, {
+  bool fullParse = false,
+}) async {
   final response = await http.get('$viewUrl/$packageName');
 
   // Dumb error handling
@@ -29,7 +32,7 @@ Future<PackageInfo> view(String packageName) async {
   }
 
   final packageJson = jsonDecode(response.body);
-  return PackageInfo.parse(packageJson);
+  return PackageInfo.parse(packageJson, parseAllVersions: fullParse);
 }
 
 class PackageNotFoundException {
@@ -54,7 +57,7 @@ class PackageInfo {
   }) {
     final package = PackageInfo(packageJson['name']);
 
-    List<Map<String, dynamic>> pubspecsJson = parseAllVersions
+    final Iterable<dynamic> pubspecsJson = parseAllVersions
         ? packageJson['versions'].map((versionJson) => versionJson['pubspec'])
         : [packageJson['latest']['pubspec']];
     package.versionedPubspecs.addAll(
