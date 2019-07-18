@@ -6,7 +6,14 @@ import 'api.dart';
 
 class ViewCommand extends Command {
   ViewCommand() {
-    argParser.addFlag('versions', help: 'Display package versions');
+    argParser.addFlag(
+      'version-only',
+      help: 'Print only the version(s) to standard out',
+    );
+    argParser.addFlag(
+      'versions',
+      help: 'Display all package versions',
+    );
   }
 
   @override
@@ -24,10 +31,15 @@ class ViewCommand extends Command {
   Future<void> run() async {
     final packageName = argResults.rest.join(' ');
     bool printVersions = argResults['versions'];
+    bool printOnlyVersion = argResults['version-only'];
 
     try {
       PackageInfo package = await view(packageName, fullParse: printVersions);
-      _printPackage(package, printVersions: printVersions);
+      _printPackage(
+        package,
+        printAllVersions: printVersions,
+        printOnlyVersion: printOnlyVersion,
+      );
     } on PackageNotFoundException catch (e) {
       stderr.writeln('${e.packageName} not found');
     }
@@ -35,18 +47,31 @@ class ViewCommand extends Command {
 
   void _printPackage(
     PackageInfo package, {
-    bool printVersions,
+    bool printAllVersions,
+    bool printOnlyVersion,
   }) {
-    print('${package.name}: ${package.version}');
-    print(package.description);
-    print(package.url);
-    if (printVersions) {
-      print('\nAll versions:');
-      print(package.versionedPubspecs
-          .map((pubspec) => pubspec.version)
-          .toList()
-          .reversed
-          .join('\n'));
+    if (printOnlyVersion) {
+      if (printAllVersions) {
+        _printVersions(package);
+      } else {
+        print(package.version);
+      }
+    } else {
+      print('${package.name}: ${package.version}');
+      print(package.description);
+      print(package.url);
+      if (printAllVersions) {
+        print('\nAll versions:');
+        _printVersions(package);
+      }
     }
+  }
+
+  void _printVersions(PackageInfo package) {
+    print(package.versionedPubspecs
+        .map((pubspec) => pubspec.version)
+        .toList()
+        .reversed
+        .join('\n'));
   }
 }

@@ -1,3 +1,7 @@
+## 1.0.6
+
+- Added the --version-only flag to `pubx view`
+
 ## 1.0.5
 
 - Even _better_ description. :)
