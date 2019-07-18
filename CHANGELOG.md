@@ -1,3 +1,7 @@
+## 1.0.5
+
+- Even _better_ description. :)
+
 ## 1.0.4
 
 - Improves package description, and adds an example
