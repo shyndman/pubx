@@ -2,6 +2,8 @@
 
 The missing `pub` commands.
 
+Search and view packages from pub.dev from the command line.
+
 ## Installation & Usage
 
 ```sh

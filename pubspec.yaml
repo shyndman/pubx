@@ -1,6 +1,7 @@
 name: pubx
-description: The missing pub commands.
-version: 1.0.3
+description: The missing pub commands. Search and view packages from pub.dev
+  from the command line.
+version: 1.0.4
 author: Scott Hyndman <scotty.hyndman@gmail.com>
 homepage: https://github.com/shyndman/pubx
 repository: https://github.com/shyndman/pubx
