@@ -58,6 +58,11 @@ class ViewCommand extends Command {
       }
     } else {
       print('${package.name}: ${package.version}');
+      if (package.currentPubspec.author != null) {
+        print("Author: ${package.currentPubspec.author}");
+      } else {
+        print("Authors: ${package.currentPubspec.authors.join(", ")}");
+      }
       print(package.description);
       print(package.url);
       if (printAllVersions) {

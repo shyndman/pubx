@@ -71,6 +71,7 @@ class PackageInfo {
   final List<VersionedPubspec> versionedPubspecs = [];
 
   String get version => currentPubspec.version;
+  List<String> get authors => currentPubspec.authors;
   String get author => currentPubspec.author;
   String get description => currentPubspec.description;
   String get url => 'https://pub.dev/packages/$name';
@@ -78,15 +79,17 @@ class PackageInfo {
 }
 
 class VersionedPubspec {
-  VersionedPubspec({this.version, this.author, this.description});
+  VersionedPubspec({this.version, this.author, this.authors, this.description});
   factory VersionedPubspec.parse(Map<String, dynamic> json) {
     return VersionedPubspec(
         version: json['version'],
+        authors: (json['authors'] as List<dynamic>)?.cast<String>(),
         author: json['author'],
         description: json['description']);
   }
 
   final String version;
   final String author;
+  final List<String> authors;
   final String description;
 }
