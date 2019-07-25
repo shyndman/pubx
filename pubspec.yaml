@@ -4,7 +4,7 @@ description: The missing pub commands. Search and view packages from pub.dev
 version: 1.0.6
 authors:
   - Scott Hyndman <scotty.hyndman@gmail.com>
-  - Gonçalo Palma
+  - Gonçalo Palma <solid.goncalo@gmail.com>
 homepage: https://github.com/shyndman/pubx
 repository: https://github.com/shyndman/pubx
 
