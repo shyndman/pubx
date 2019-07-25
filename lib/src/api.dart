@@ -27,7 +27,7 @@ Future<PackageInfo> view(
   // Dumb error handling
   if (response.statusCode == 404) {
     throw PackageNotFoundException(packageName);
-  } else if (response.statusCode < 200 && response.statusCode > 299) {
+  } else if (response.statusCode < 200 || response.statusCode > 299) {
     throw http.ClientException('response.statusCode: ${response.statusCode}');
   }
 
