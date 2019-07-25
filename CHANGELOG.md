@@ -1,3 +1,9 @@
+## 1.0.7
+
+Courtesy of @Vanethos:
+- Support for pubspec.yaml's authors field
+- Suppressing of stack trace when command is not understood
+
 ## 1.0.6
 
 - Added the --version-only flag to `pubx view`
