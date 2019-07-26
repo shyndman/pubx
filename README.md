@@ -28,3 +28,16 @@ Searches [pub.dev](https://pub.dev).
 Displays information about the specified package.
 
 `pubx view {package-name}`
+
+### add
+
+*Aliases: a*
+
+Adds the package to your `pubspec.yaml` file.
+
+`pubx add {package-name}`
+
+Additional options:
+
+* `dev` - add this as a `dev_dependencies`
+* `lock` - lock the version using the `^` symbol
