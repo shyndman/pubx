@@ -11,11 +11,11 @@ void main(List<String> arguments) async {
   try {
     await runner.run(arguments);
   } on UsageException catch (e) {
-    print(e);
+    stderr.writeln(e);
     exit(64);
   } catch(e) {
-    print('An unknown error has occured.');
-    print(runner.usage);
+    stderr.writeln('An unknown error has occured.');
+    stderr.writeln(runner.usage);
     rethrow;
   }
 }
