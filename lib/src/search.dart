@@ -16,7 +16,7 @@ class SearchCommand extends Command {
   final String invocation = 'pubx search {query}';
 
   Future<void> run() async {
-    final result = await search(argResults.rest.join(' '));
+    final result = await searchPackages(argResults.rest.join(' '));
     for (final package in result.packages) {
       print(package.name);
     }

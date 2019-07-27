@@ -34,7 +34,7 @@ class ViewCommand extends Command {
     bool printOnlyVersion = argResults['version-only'];
 
     try {
-      PackageInfo package = await view(packageName, fullParse: printVersions);
+      PackageInfo package = await fetchPackageInfo(packageName, fullParse: printVersions);
       _printPackage(
         package,
         printAllVersions: printVersions,

@@ -6,19 +6,17 @@ const pubUrlBase = 'https://pub.dartlang.org';
 const searchUrl = '$pubUrlBase/api/search';
 const viewUrl = '$pubUrlBase/api/packages';
 
-Future<SearchResult> search(String query) async {
+Future<SearchResult> searchPackages(String query) async {
   final searchJson = jsonDecode(await http.read('$searchUrl?q=$query')) as Map;
   final packagesJson = searchJson['packages'] as List<dynamic>;
-  final packageInfos = await Future.wait(
-    packagesJson
-        .where((json) => !(json['package'] as String).startsWith('dart:'))
-        .map((json) => view(json['package'])),
-  );
+  final packageInfos = await Future.wait(packagesJson
+      .where((json) => !json['package'].toString().startsWith('dart:'))
+      .map((json) => fetchPackageInfo(json['package'])));
 
   return SearchResult(packages: packageInfos);
 }
 
-Future<PackageInfo> view(
+Future<PackageInfo> fetchPackageInfo(
   String packageName, {
   bool fullParse = false,
 }) async {
