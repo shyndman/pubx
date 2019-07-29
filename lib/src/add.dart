@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
+import 'package:path/path.dart';
 
 import 'api.dart';
 
@@ -13,7 +14,7 @@ class AddCommand extends Command {
     );
     argParser.addFlag(
       'lock',
-      help: 'Lock version with "^" symbol',
+      help: 'Specify a lower boundary for the package version with the "^" symbol',
     );
   }
 
@@ -37,8 +38,7 @@ class AddCommand extends Command {
     var pub = await _getPubspec();
 
     if (pub == null) {
-      print("No pubspec.yaml file found, please run this command in the root folder of a Dart project");
-      return;
+      throw FileNotFoundException("No pubspec.yaml file found");
     }
 
     try {
@@ -53,27 +53,39 @@ class AddCommand extends Command {
           .transform(Utf8Decoder())
           .transform(LineSplitter())
           .listen((String line) {
-            var match = devDependency ? "dev_dependencies:" : "dependencies:";
-            if (line == (match)) {
-              line += "\n  ${package.name}: ${lockVersion ? "^" : ""}${package.version}";
-            }
-            contents.write(line+"\n");
+        var match = devDependency ? "dev_dependencies:" : "dependencies:";
+        if (line == (match)) {
+          line +=
+          "\n  ${package.name}: ${lockVersion ? "^" : ""}${package.version}";
+        }
+        contents.write(line + "\n");
       }, // Add line to our StringBuffer object
-          onDone: () => pub.writeAsStringSync(contents.toString()),
-          onError: (e) => print('There was a problem adding the dependency to your project'));
+          onDone: () => pub.writeAsStringSync(contents.toString()));
 
     } on PackageNotFoundException catch (e) {
       stderr.writeln('${e.packageName} not found');
+      exit(64);
+    } catch (e) {
+      print('There was a problem adding the dependency to your project');
+      rethrow;
     }
   }
 
   Future<File> _getPubspec() async {
     Directory current = Directory.current;
-    var slash = Platform.isWindows ? "\\" : "/";
-    var file = File("${current.path}${slash}pubspec.yaml");
+    var context = Context();
+    var file = File(context.join(current.path, 'pubspec.yaml'));
     if (await file.exists()) {
       return file;
     }
     return null;
   }
+}
+
+class FileNotFoundException implements Exception {
+  String message;
+
+  FileNotFoundException(this.message);
+
+  String toString() => "FileNotFoundException: $message";
 }
