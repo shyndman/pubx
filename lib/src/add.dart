@@ -62,9 +62,6 @@ class AddCommand extends Command {
       }, // Add line to our StringBuffer object
           onDone: () => pub.writeAsStringSync(contents.toString()));
 
-    } on PackageNotFoundException catch (e) {
-      stderr.writeln('${e.packageName} not found');
-      exit(64);
     } catch (e) {
       print('There was a problem adding the dependency to your project');
       rethrow;
