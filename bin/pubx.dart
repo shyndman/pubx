@@ -17,7 +17,7 @@ main(List<String> arguments) async {
     exit(64);
   } on FileNotFoundException catch (e) {
     print("No pubspec.yaml file found, please run this command in the root folder of a Dart project");
-    rethrow;
+    exit(64);
   } catch(e) {
     print("An unknown error has occured.");
     print(runner.usage);

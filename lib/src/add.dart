@@ -14,7 +14,7 @@ class AddCommand extends Command {
     );
     argParser.addFlag(
       'lock',
-      help: 'Specify a lower boundary for the package version with the "^" symbol',
+      help: 'Lock the package version',
     );
   }
 
@@ -35,7 +35,7 @@ class AddCommand extends Command {
     bool devDependency = argResults['dev'];
     bool lockVersion = argResults['lock'];
 
-    var pub = await _getPubspec();
+    var pub = _getPubspec();
 
     if (pub == null) {
       throw FileNotFoundException("No pubspec.yaml file found");
@@ -56,7 +56,7 @@ class AddCommand extends Command {
         var match = devDependency ? "dev_dependencies:" : "dependencies:";
         if (line == (match)) {
           line +=
-          "\n  ${package.name}: ${lockVersion ? "^" : ""}${package.version}";
+          "\n  ${package.name}: ${lockVersion ? "" : "^"}${package.version}";
         }
         contents.write(line + "\n");
       }, // Add line to our StringBuffer object
@@ -71,11 +71,11 @@ class AddCommand extends Command {
     }
   }
 
-  Future<File> _getPubspec() async {
+  File _getPubspec() {
     Directory current = Directory.current;
     var context = Context();
     var file = File(context.join(current.path, 'pubspec.yaml'));
-    if (await file.exists()) {
+    if (file.existsSync()) {
       return file;
     }
     return null;
