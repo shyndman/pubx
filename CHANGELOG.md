@@ -1,3 +1,9 @@
+## 1.0.8
+
+- The add command (courtesy of @Vanethos), for adding a dependency to
+  pubspec.yaml
+- A bug fix in HTTP status code evaluation (courtesy of @f3ath)
+
 ## 1.0.7
 
 Courtesy of @Vanethos:

@@ -4,6 +4,14 @@
 pub global activate pubx
 ```
 
+## pubx add: Add packages to pubspec.yaml
+*Alias: a*
+
+```sh
+pubx add json
+pubx add --dev build # Add to dev_dependencies
+```
+
 ## pubx search: Search packages
 *Aliases: se, s, find*
 

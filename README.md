@@ -13,6 +13,19 @@ pubx search json
 
 ## Commands
 
+### add
+
+*Alias: a*
+
+Adds the package to your `pubspec.yaml` file.
+
+`pubx add {package-name}`
+
+Additional options:
+
+* `dev` - add this as a `dev_dependencies` entry
+* `lock` - omits the `^` symbol to lock to the latest version
+
 ### search
 
 *Aliases: se, s, find*
@@ -28,16 +41,3 @@ Searches [pub.dev](https://pub.dev).
 Displays information about the specified package.
 
 `pubx view {package-name}`
-
-### add
-
-*Aliases: a*
-
-Adds the package to your `pubspec.yaml` file.
-
-`pubx add {package-name}`
-
-Additional options:
-
-* `dev` - add this as a `dev_dependencies`
-* `lock` - lock the version using the `^` symbol
