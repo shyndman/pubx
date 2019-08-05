@@ -30,11 +30,12 @@ class ViewCommand extends Command {
 
   Future<void> run() async {
     final packageName = argResults.rest.join(' ');
-    bool printVersions = argResults['versions'];
-    bool printOnlyVersion = argResults['version-only'];
+    final printVersions = argResults['versions'] as bool;
+    final printOnlyVersion = argResults['version-only'] as bool;
 
     try {
-      PackageInfo package = await fetchPackageInfo(packageName, fullParse: printVersions);
+      final package =
+          await fetchPackageInfo(packageName, fullParse: printVersions);
       _printPackage(
         package,
         printAllVersions: printVersions,

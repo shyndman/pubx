@@ -8,6 +8,9 @@ include: package:pedantic/analysis_options.yaml
 linter:
   rules:
     - always_declare_return_types
+    - prefer_final_fields
+    - prefer_final_in_for_each
+    - prefer_final_locals
     - prefer_single_quotes
     - sort_constructors_first
     - unnecessary_lambdas

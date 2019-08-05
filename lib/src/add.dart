@@ -42,15 +42,15 @@ class AddCommand extends Command {
 
     try {
       // Check if current directory has a pubspec.yaml file
-      PackageInfo package = await fetchPackageInfo(packageName);
+      final package = await fetchPackageInfo(packageName);
 
       // Read file
-      var contents = StringBuffer();
-      var contentStream = pub.openRead();
+      final contents = StringBuffer();
+      final contentStream = pub.openRead();
 
       contentStream.transform(Utf8Decoder()).transform(LineSplitter()).listen(
         (String line) {
-          var match = devDependency ? 'dev_dependencies:' : 'dependencies:';
+          final match = devDependency ? 'dev_dependencies:' : 'dependencies:';
           if (line == match) {
             line += '\n  ${package.name}: '
                 '${lockVersion ? '' : '^'}${package.version}';
@@ -66,7 +66,7 @@ class AddCommand extends Command {
   }
 
   File _getPubspec() {
-    Directory current = Directory.current;
+    final current = Directory.current;
     final file = File(join(current.path, 'pubspec.yaml'));
     if (file.existsSync()) {
       return file;
