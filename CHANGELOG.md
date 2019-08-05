@@ -1,3 +1,12 @@
+## 1.1.0
+
+- add command will now replace existing version constraints if dependency is
+  already present
+- add command no longer inserts duplicates
+
+I realize that I should have bumped minor with the last release, but neglected
+to.
+
 ## 1.0.8
 
 - The add command (courtesy of @Vanethos), for adding a dependency to
