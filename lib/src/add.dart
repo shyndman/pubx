@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:path/path.dart';
+import 'package:yaml/yaml.dart';
 
 import 'api.dart';
 
@@ -44,21 +45,45 @@ class AddCommand extends Command {
       // Check if current directory has a pubspec.yaml file
       final package = await fetchPackageInfo(packageName);
 
-      // Read file
-      final contents = StringBuffer();
-      final contentStream = pub.openRead();
+      // Load and parse pubspec.yaml
+      final pubContents = pub.readAsStringSync();
+      final pubYaml = loadYaml(
+        pub.readAsStringSync(),
+        sourceUrl: pub.uri,
+      ) as YamlMap;
 
-      contentStream.transform(Utf8Decoder()).transform(LineSplitter()).listen(
-        (String line) {
-          final match = devDependency ? 'dev_dependencies:' : 'dependencies:';
-          if (line == match) {
-            line += '\n  ${package.name}: '
-                '${lockVersion ? '' : '^'}${package.version}';
-          }
-          contents.write(line + '\n');
-        }, // Add line to our StringBuffer object
-        onDone: () => pub.writeAsStringSync(contents.toString()),
-      );
+      // TODO(https://github.com/shyndman/pubx/issues/7): Add the section if
+      // missing.
+      final dependenciesKey =
+          devDependency ? 'dev_dependencies' : 'dependencies';
+      final dependenciesMap = pubYaml.nodes[dependenciesKey] as YamlMap;
+
+      final versionConstraints = '${lockVersion ? '' : '^'}${package.version}';
+      String newPubContents;
+      // If the dependency is already present, replace its constraints with
+      // the latest.
+      if (dependenciesMap.containsKey(package.name)) {
+        final currentVersionNode =
+            dependenciesMap.nodes[package.name] as YamlScalar;
+        final span = currentVersionNode.span;
+        newPubContents = pubContents.replaceRange(
+            span.start.offset, span.end.offset, versionConstraints);
+      }
+      // Otherwise we prepend the new dependency entry to the relevant map.
+      else {
+        final span = dependenciesMap.span;
+        // TODO(https://github.com/shyndman/pubx/issues/8): Attempt to add
+        // package in the correct order if the list is already sorted.
+        newPubContents = pubContents.replaceRange(span.start.offset,
+            span.start.offset, '${package.name}: $versionConstraints\n  ');
+      }
+
+      pub.writeAsStringSync(newPubContents);
+
+      // TODO(https://github.com/shyndman/pubx/issues/9): Fetch packages
+      // automatically.
+
+      stderr.writeln('+ ${package.name}: $versionConstraints');
     } catch (e) {
       print('There was a problem adding the dependency to your project');
       rethrow;

@@ -161,7 +161,7 @@ packages:
       name: node_preamble
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.4.4"
+    version: "1.4.6"
   package_config:
     dependency: transitive
     description:
@@ -322,7 +322,7 @@ packages:
       name: vm_service_lib
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.22.2"
+    version: "3.22.2+1"
   watcher:
     dependency: transitive
     description:
@@ -338,7 +338,7 @@ packages:
     source: hosted
     version: "1.0.14"
   yaml:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: yaml
       url: "https://pub.dartlang.org"
