@@ -1,3 +1,8 @@
+## 1.1.1
+
+- fix bug introduced in 1.1.0, where updating a dependency with an unspecified
+  version would output invalid yaml
+
 ## 1.1.0
 
 - add command will now replace existing version constraints if dependency is
