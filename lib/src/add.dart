@@ -66,8 +66,23 @@ class AddCommand extends Command {
         final currentVersionNode =
             dependenciesMap.nodes[package.name] as YamlScalar;
         final span = currentVersionNode.span;
-        newPubContents = pubContents.replaceRange(
-            span.start.offset, span.end.offset, versionConstraints);
+
+        // If a dependency entry has been defined without an explicit version,
+        // (eg. `build_runner:`) the node's span sits on the entry's :
+        // character. This requires some special handling to avoid overwriting.
+        if (currentVersionNode.value == null) {
+          newPubContents = pubContents.replaceRange(
+            span.start.offset + 1,
+            span.end.offset + 1,
+            ' $versionConstraints',
+          );
+        } else {
+          newPubContents = pubContents.replaceRange(
+            span.start.offset,
+            span.end.offset,
+            versionConstraints,
+          );
+        }
       }
       // Otherwise we prepend the new dependency entry to the relevant map.
       else {
