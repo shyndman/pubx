@@ -49,3 +49,11 @@ Checks pub.dev for packages in your pubspec that have updated versions
 Displays information about the specified package.
 
 `pubx view {package-name}`
+
+### which
+
+*Aliases: w*
+
+Displays the path for the local source code of the package stored in `.pub-cache`
+
+`pubx which {package-name}`
