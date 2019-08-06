@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
+import 'except.dart';
+
 const pubUrlBase = 'https://pub.dartlang.org';
 const searchUrl = '$pubUrlBase/api/search';
 const viewUrl = '$pubUrlBase/api/packages';
@@ -31,14 +33,6 @@ Future<PackageInfo> fetchPackageInfo(
 
   final packageJson = jsonDecode(response.body);
   return PackageInfo.parse(packageJson, parseAllVersions: fullParse);
-}
-
-class PackageNotFoundException {
-  PackageNotFoundException(this.packageName);
-  final String packageName;
-
-  @override
-  String toString() => '$packageName not found';
 }
 
 class SearchResult {

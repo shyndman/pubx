@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:args/command_runner.dart';
 
 import '../api.dart';
+import '../except.dart';
 
 class ViewCommand extends Command {
   ViewCommand() {
