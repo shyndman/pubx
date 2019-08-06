@@ -1,3 +1,8 @@
+## 1.2.0
+
+- add a `which` command, for finding the path of packages locally
+- the `add` command now works from sub-folders
+
 ## 1.1.1
 
 - fix bug introduced in 1.1.0, where updating a dependency with an unspecified
