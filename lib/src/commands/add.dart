@@ -17,6 +17,10 @@ class AddCommand extends Command {
       'lock',
       help: 'Lock the package version',
     );
+    argParser.addFlag(
+      'no-fetch',
+      help: 'Does not fetch dependencies after adding them',
+    );
   }
 
   @override
@@ -35,6 +39,7 @@ class AddCommand extends Command {
     final packageName = argResults.rest.join(' ');
     final devDependency = argResults['dev'] as bool;
     final lockVersion = argResults['lock'] as bool;
+    final noFetch = argResults['no-fetch'] as bool;
 
     final pub = findPubspec();
     try {
@@ -91,10 +96,13 @@ class AddCommand extends Command {
 
       pub.writeAsStringSync(newPubContents);
 
-      // TODO(https://github.com/shyndman/pubx/issues/9): Fetch packages
-      // automatically.
-
       stderr.writeln('+ ${package.name}: $versionConstraints');
+
+      if (!noFetch) {
+        stderr.writeln('Running pub get...');
+        await Process.run('pub', ['get']);
+      }
+
     } catch (e) {
       print('There was a problem adding the dependency to your project');
       rethrow;
