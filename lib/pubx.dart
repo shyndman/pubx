@@ -1,4 +1,3 @@
 library pubx;
 
-export 'src/search.dart';
-export 'src/view.dart';
+export 'src/commands/commands.dart';
