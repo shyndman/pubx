@@ -1,6 +1,6 @@
 import 'package:args/command_runner.dart';
 
-import 'api.dart';
+import '../api.dart';
 
 class SearchCommand extends Command {
   @override

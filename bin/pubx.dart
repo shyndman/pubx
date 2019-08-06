@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:pubx/pubx.dart';
-import 'package:pubx/src/add.dart';
 import 'package:pubx/src/api.dart';
 
 void main(List<String> arguments) async {
