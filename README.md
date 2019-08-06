@@ -17,7 +17,7 @@ pubx search json
 
 *Alias: a*
 
-Adds the package to your `pubspec.yaml` file.
+Adds the package to your `pubspec.yaml` file and runs `pub get`.
 
 `pubx add {package-name}`
 
@@ -25,6 +25,7 @@ Additional options:
 
 * `dev` - add this as a `dev_dependencies` entry
 * `lock` - omits the `^` symbol to lock to the latest version
+* `no-fetch` - prevents the add command from running `pub get` after adding a dependency
 
 ### search
 
