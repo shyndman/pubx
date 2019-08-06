@@ -6,9 +6,10 @@ import 'package:pubx/src/api.dart';
 
 void main(List<String> arguments) async {
   final runner = CommandRunner('pubx', 'The missing pub commands.')
+    ..addCommand(AddCommand())
     ..addCommand(SearchCommand())
     ..addCommand(ViewCommand())
-    ..addCommand(AddCommand());
+    ..addCommand(WhichCommand());
 
   try {
     await runner.run(arguments);

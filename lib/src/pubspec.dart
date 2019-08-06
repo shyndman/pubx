@@ -1,3 +1,5 @@
+// Utilities related to handling pubspec.yaml files.
+
 import 'dart:io';
 
 import 'except.dart';
