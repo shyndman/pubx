@@ -1,10 +1,11 @@
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
-import 'package:path/path.dart';
 import 'package:yaml/yaml.dart';
 
 import '../api.dart';
+import '../except.dart';
+import '../pubspec.dart';
 
 class AddCommand extends Command {
   AddCommand() {
@@ -35,11 +36,7 @@ class AddCommand extends Command {
     final devDependency = argResults['dev'] as bool;
     final lockVersion = argResults['lock'] as bool;
 
-    final pub = _getPubspec();
-    if (pub == null) {
-      throw FileNotFoundException('No pubspec.yaml file found');
-    }
-
+    final pub = findPubspec();
     try {
       // Check if current directory has a pubspec.yaml file
       final package = await fetchPackageInfo(packageName);
@@ -103,19 +100,4 @@ class AddCommand extends Command {
       rethrow;
     }
   }
-
-  File _getPubspec() {
-    final current = Directory.current;
-    final file = File(join(current.path, 'pubspec.yaml'));
-    if (file.existsSync()) {
-      return file;
-    }
-    return null;
-  }
-}
-
-class FileNotFoundException implements Exception {
-  FileNotFoundException(this.message);
-  final String message;
-  String toString() => 'FileNotFoundException: $message';
 }
