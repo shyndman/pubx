@@ -4,7 +4,6 @@ import 'package:args/command_runner.dart';
 import 'package:yaml/yaml.dart';
 
 import '../api.dart';
-import '../except.dart';
 import '../pubspec.dart';
 
 class AddCommand extends Command {
