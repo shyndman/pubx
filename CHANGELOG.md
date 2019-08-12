@@ -1,3 +1,8 @@
+## 1.2.1
+
+- fixes a bug where pubx would throw an exception in the absence of
+  an existing dependencies/dev_dependencies map
+
 ## 1.2.0
 
 - add a `which` command, for finding the path of packages locally
