@@ -51,41 +51,20 @@ class AddCommand extends Command {
       // missing.
       final dependenciesKey =
           devDependency ? 'dev_dependencies' : 'dependencies';
-      final dependenciesMap = pubYaml.nodes[dependenciesKey] as YamlMap;
-
       final versionConstraints = '${lockVersion ? '' : '^'}${package.version}';
-      String newPubContents;
-      // If the dependency is already present, replace its constraints with
-      // the latest.
-      if (dependenciesMap.containsKey(package.name)) {
-        final currentVersionNode =
-            dependenciesMap.nodes[package.name] as YamlScalar;
-        final span = currentVersionNode.span;
 
-        // If a dependency entry has been defined without an explicit version,
-        // (eg. `build_runner:`) the node's span sits on the entry's :
-        // character. This requires some special handling to avoid overwriting.
-        if (currentVersionNode.value == null) {
-          newPubContents = pubContents.replaceRange(
-            span.start.offset + 1,
-            span.end.offset + 1,
-            ' $versionConstraints',
-          );
-        } else {
-          newPubContents = pubContents.replaceRange(
-            span.start.offset,
-            span.end.offset,
-            versionConstraints,
-          );
-        }
-      }
-      // Otherwise we prepend the new dependency entry to the relevant map.
-      else {
-        final span = dependenciesMap.span;
-        // TODO(https://github.com/shyndman/pubx/issues/8): Attempt to add
-        // package in the correct order if the list is already sorted.
-        newPubContents = pubContents.replaceRange(span.start.offset,
-            span.start.offset, '${package.name}: $versionConstraints\n  ');
+      String newPubContents;
+      if (pubYaml.nodes.containsKey(dependenciesKey)) {
+        final dependenciesMap = pubYaml.nodes[dependenciesKey] as YamlMap;
+        newPubContents = _generatePubspecWithExistingDepsNode(
+          dependenciesMap,
+          package,
+          versionConstraints,
+          pubContents,
+        );
+      } else {
+        newPubContents = '$pubContents\n$dependenciesKey:\n'
+            '  ${package.name}: $versionConstraints\n';
       }
 
       pub.writeAsStringSync(newPubContents);
@@ -97,6 +76,46 @@ class AddCommand extends Command {
     } catch (e) {
       print('There was a problem adding the dependency to your project');
       rethrow;
+    }
+  }
+
+  String _generatePubspecWithExistingDepsNode(
+    YamlMap dependenciesMap,
+    PackageInfo package,
+    String versionConstraints,
+    String pubContents,
+  ) {
+    // If the dependency is already present, replace its constraints with
+    // the latest.
+    if (dependenciesMap.containsKey(package.name)) {
+      final currentVersionNode =
+          dependenciesMap.nodes[package.name] as YamlScalar;
+      final span = currentVersionNode.span;
+
+      // If a dependency entry has been defined without an explicit version,
+      // (eg. `build_runner:`) the node's span sits on the entry's :
+      // character. This requires some special handling to avoid overwriting.
+      if (currentVersionNode.value == null) {
+        return pubContents.replaceRange(
+          span.start.offset + 1,
+          span.end.offset + 1,
+          ' $versionConstraints',
+        );
+      } else {
+        return pubContents.replaceRange(
+          span.start.offset,
+          span.end.offset,
+          versionConstraints,
+        );
+      }
+    }
+    // Otherwise we prepend the new dependency entry to the relevant map.
+    else {
+      final span = dependenciesMap.span;
+      // TODO(https://github.com/shyndman/pubx/issues/8): Attempt to add
+      // package in the correct order if the list is already sorted.
+      return pubContents.replaceRange(span.start.offset, span.start.offset,
+          '${package.name}: $versionConstraints\n  ');
     }
   }
 }
