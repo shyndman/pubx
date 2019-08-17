@@ -10,6 +10,7 @@ class AddCommand extends Command {
   AddCommand() {
     argParser.addFlag(
       'dev',
+      abbr: 'D',
       help: 'Add dev dependency',
     );
     argParser.addFlag(
