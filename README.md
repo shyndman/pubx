@@ -36,6 +36,14 @@ Searches [pub.dev](https://pub.dev).
 
 ### view
 
+*Aliases: updates, u*
+
+Checks pub.dev for packages in your pubspec that have updated versions
+
+`pubx updates`
+
+### view
+
 *Aliases: info, show, v*
 
 Displays information about the specified package.

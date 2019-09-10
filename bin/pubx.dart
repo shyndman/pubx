@@ -8,6 +8,7 @@ void main(List<String> arguments) async {
     ..addCommand(AddCommand())
     ..addCommand(SearchCommand())
     ..addCommand(ViewCommand())
+    ..addCommand(UpdatesCommand())
     ..addCommand(WhichCommand());
 
   try {
