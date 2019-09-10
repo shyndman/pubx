@@ -34,7 +34,7 @@ class UpdatesCommand extends Command {
       try {
         final pkgInfo = await fetchPackageInfo(packageName);
         print(
-            '${pkgInfo.name}\t[${dependencies[packageName]}]\t\latest: ${pkgInfo.version}');
+            '${pkgInfo.name} [${dependencies[packageName]}]  latest: ${pkgInfo.version}');
       } catch (e) {
         //NA
       }
