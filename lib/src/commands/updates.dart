@@ -31,9 +31,13 @@ class UpdatesCommand extends Command {
     final YamlMap dependencies = pubYaml['dependencies'];
 
     dependencies.keys.forEach((packageName) async {
-      final pkgInfo = await fetchPackageInfo(packageName);
-      print(
-          '${pkgInfo.name}\t[${dependencies[packageName]}]\t\latest: ${pkgInfo.version}');
+      try {
+        final pkgInfo = await fetchPackageInfo(packageName);
+        print(
+            '${pkgInfo.name}\t[${dependencies[packageName]}]\t\latest: ${pkgInfo.version}');
+      } catch (e) {
+        //NA
+      }
     });
   }
 }
