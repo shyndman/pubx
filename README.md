@@ -2,7 +2,7 @@
 
 The missing `pub` commands.
 
-Search and view packages from pub.dev from the command line.
+Search and view [pub.dev](https://pub.dev) packages from the command line.
 
 ## Installation & Usage
 
