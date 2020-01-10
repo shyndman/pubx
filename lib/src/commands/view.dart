@@ -29,6 +29,7 @@ class ViewCommand extends Command {
   @override
   final String invocation = 'pubx info {packageName}';
 
+  @override
   Future<void> run() async {
     final packageName = argResults.rest.join(' ');
     final printVersions = argResults['versions'] as bool;

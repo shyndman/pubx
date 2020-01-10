@@ -31,6 +31,7 @@ class AddCommand extends Command {
   @override
   final String invocation = 'pubx add {packageName}';
 
+  @override
   Future<void> run() async {
     final packageName = argResults.rest.join(' ');
     final devDependency = argResults['dev'] as bool;

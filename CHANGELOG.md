@@ -1,3 +1,7 @@
+## 1.2.3
+
+- resolve lints
+
 ## 1.2.2
 
 - fixes a bug where pubx would fail if no author or authors field was present

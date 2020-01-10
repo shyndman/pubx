@@ -24,7 +24,7 @@ File findFileInAncestorDirectories(String fileName) {
 /// Returns an iterable of [path]'s directories, starting from `dirname(path)`
 /// and ending at the root path (`./` or `/`).
 Iterable<String> iterateAncestorDirectories(String path) sync* {
-  String dirPath = dirname(path), lastDirPath = path;
+  var dirPath = dirname(path), lastDirPath = path;
   // When we hit the the root, dirname() is consistent in its return value
   while (dirPath != lastDirPath) {
     yield dirPath;

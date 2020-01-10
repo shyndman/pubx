@@ -15,6 +15,7 @@ class SearchCommand extends Command {
   @override
   final String invocation = 'pubx search {query}';
 
+  @override
   Future<void> run() async {
     final result = await searchPackages(argResults.rest.join(' '));
     for (final package in result.packages) {
