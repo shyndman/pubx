@@ -62,7 +62,7 @@ class ViewCommand extends Command {
       print('${package.name}: ${package.version}');
       if (package.currentPubspec.author != null) {
         print('Author: ${package.currentPubspec.author}');
-      } else {
+      } else if (package.currentPubspec.authors != null) {
         print('Authors: ${package.currentPubspec.authors.join(", ")}');
       }
       print(package.description);

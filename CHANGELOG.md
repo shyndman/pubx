@@ -1,3 +1,8 @@
+## 1.2.2
+
+- fixes a bug where pubx would fail if no author or authors field was present
+  in a pubspec
+
 ## 1.2.1
 
 - fixes a bug where pubx would throw an exception in the absence of
