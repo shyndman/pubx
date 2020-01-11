@@ -1,0 +1,29 @@
+version: 2.1
+executors:
+  dart_sdk_image:
+    docker:
+      - image: google/dart
+
+jobs:
+  run_tests:
+    executor: dart_sdk_image
+    steps:
+      - checkout
+      - run: pub get && pub run test
+
+workflows:
+  version: 2.1
+  commit:
+    jobs:
+      - run_tests
+  nightly:
+    triggers:
+      - schedule:
+          cron: '0 0 * * *'
+          filters:
+            branches:
+              only:
+                - master
+                - beta
+    jobs:
+      - run_tests
