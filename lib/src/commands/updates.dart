@@ -37,12 +37,18 @@ class UpdatesCommand extends Command {
             name.length > maxLength ? name.length : maxLength);
 
     for (final packageName in packageNames) {
-      if (!dependencies[packageName].toString().startsWith('{sdk:')) {
+      bool isSDK = false;
+      String pkgType;
+      if (dependencies[packageName] is YamlMap) {
+        isSDK = _isSdkPackage(dependencies[packageName]);
+        pkgType = _packageType(dependencies[packageName]);
+      }
+      if (!isSDK) {
         try {
           final pkgInfo = await fetchPackageInfo(packageName);
+
           String currentVersion = dependencies[packageName].toString();
-          currentVersion =
-              currentVersion.startsWith('{git:') ? 'git repo' : currentVersion;
+          currentVersion = pkgType ?? currentVersion;
           print(
               '${pkgInfo.name.padRight(maxPackageNameLength)} \t [$currentVersion] \t latest: ${pkgInfo.version}');
         } catch (e) {
@@ -50,5 +56,17 @@ class UpdatesCommand extends Command {
         }
       }
     }
+  }
+
+  bool _isSdkPackage(YamlMap package) => package['sdk'] != null;
+
+  String _packageType(YamlMap package) {
+    if (package['path'] != null) {
+      return 'path pkg';
+    }
+    if (package['git'] != null) {
+      return 'git pkg';
+    }
+    return 'unknown';
   }
 }
