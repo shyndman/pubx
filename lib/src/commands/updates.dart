@@ -30,12 +30,21 @@ class UpdatesCommand extends Command {
 
     final YamlMap dependencies = pubYaml['dependencies'];
 
-    for (final packageName in dependencies.keys) {
+    final packageNames = dependencies.keys.cast<String>();
+    final maxPackageNameLength = packageNames.fold(
+        0,
+        (int maxLength, String name) =>
+            name.length > maxLength ? name.length : maxLength);
+
+    for (final packageName in packageNames) {
       if (!dependencies[packageName].toString().startsWith('{sdk:')) {
         try {
           final pkgInfo = await fetchPackageInfo(packageName);
+          String currentVersion = dependencies[packageName].toString();
+          currentVersion =
+              currentVersion.startsWith('{git:') ? 'git repo' : currentVersion;
           print(
-              '${pkgInfo.name} \t [${dependencies[packageName]}] \t latest: ${pkgInfo.version}');
+              '${pkgInfo.name.padRight(maxPackageNameLength)} \t [$currentVersion] \t latest: ${pkgInfo.version}');
         } catch (e) {
           //NA
         }
