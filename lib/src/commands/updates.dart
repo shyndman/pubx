@@ -50,7 +50,8 @@ class UpdatesCommand extends Command {
           data.add(
               [pkgInfo.name, currentVersion, 'latest: ${pkgInfo.version}']);
         } catch (e) {
-          //NA
+          print(
+              'There was a problem fetching dependency information for your project');
         }
       }
     }
