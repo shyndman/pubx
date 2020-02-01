@@ -1,3 +1,9 @@
+## 1.3.0
+
+- add an "updates" command, for displaying packages that can be upgraded
+- pub get is now run automatically following a package addition
+- add docs for "which"
+
 ## 1.2.3
 
 - resolve lints
