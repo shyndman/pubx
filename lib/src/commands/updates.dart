@@ -1,4 +1,5 @@
 import 'package:args/command_runner.dart';
+import 'package:dolumns/dolumns.dart';
 import 'package:yaml/yaml.dart';
 
 import '../api.dart';
@@ -31,11 +32,8 @@ class UpdatesCommand extends Command {
     final YamlMap dependencies = pubYaml['dependencies'];
 
     final packageNames = dependencies.keys.cast<String>();
-    final maxPackageNameLength = packageNames.fold(
-        0,
-        (int maxLength, String name) =>
-            name.length > maxLength ? name.length : maxLength);
 
+    final data = <List<String>>[];
     for (final packageName in packageNames) {
       bool isSDK = false;
       String pkgType;
@@ -49,13 +47,15 @@ class UpdatesCommand extends Command {
 
           String currentVersion = dependencies[packageName].toString();
           currentVersion = pkgType ?? currentVersion;
-          print(
-              '${pkgInfo.name.padRight(maxPackageNameLength)} \t [$currentVersion] \t latest: ${pkgInfo.version}');
+          data.add(
+              [pkgInfo.name, currentVersion, 'latest: ${pkgInfo.version}']);
         } catch (e) {
-          //NA
+          print(
+              'There was a problem fetching dependency information for your project');
         }
       }
     }
+    print(dolumnify(data));
   }
 
   bool _isSdkPackage(YamlMap package) => package['sdk'] != null;

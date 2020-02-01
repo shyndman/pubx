@@ -17,6 +17,7 @@ dependencies:
   path: ^1.6.0
   quiver: ^2.0.4
   yaml: ^2.1.16
+  dolumns: ^1.0.1+1
 
 dev_dependencies:
   pedantic: ^1.7.0

@@ -64,6 +64,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.16.1"
+  dolumns:
+    dependency: "direct main"
+    description:
+      name: dolumns
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1+1"
   front_end:
     dependency: transitive
     description:
@@ -352,4 +359,4 @@ packages:
     source: hosted
     version: "2.1.16"
 sdks:
-  dart: ">=2.4.0 <3.0.0"
+  dart: ">=2.7.0 <3.0.0"
