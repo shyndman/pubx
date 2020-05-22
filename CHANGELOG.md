@@ -1,3 +1,7 @@
+## 1.3.1
+
+- upgrade dependencies
+
 ## 1.3.0
 
 - add an "updates" command, for displaying packages that can be upgraded
